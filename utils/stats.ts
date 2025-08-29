@@ -49,16 +49,19 @@ const saveStats = (stats: GameStats) => {
   }
 };
 
-export const recordGameStart = (difficulty: Difficulty): void => {
+export const recordGameStart = (difficulty: Difficulty): GameStats => {
   const stats = loadStats();
   stats[difficulty].gamesPlayed += 1;
-  stats.currentStreak = 0; // Starting a new game breaks the streak unless it's a win
   saveStats(stats);
+  return stats;
 };
 
 export const recordGameWin = (difficulty: Difficulty, time: number): void => {
   const stats = loadStats();
   const diffStats = stats[difficulty];
+  
+  // A win is recorded, but gamesPlayed wasn't incremented for this session yet if it's a continued game.
+  // To prevent double counting, we don't increment gamesPlayed here. It's done at the start.
   
   diffStats.gamesWon += 1;
   diffStats.totalTime += time;

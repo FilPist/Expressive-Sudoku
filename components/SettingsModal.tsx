@@ -41,28 +41,26 @@ const ToggleButton: React.FC<{
     const itemWidthPercent = 100 / options.length;
 
     return (
-        <div className="bg-brand-dark/10 dark:bg-brand-dark/80 rounded-full p-1">
-            <div className="relative flex w-full">
-                <span
-                    className="absolute top-0 bottom-0 bg-white dark:bg-accent rounded-full shadow-md"
-                    style={{
-                        width: `${itemWidthPercent}%`,
-                        transform: `translateX(${activeIndex * 100}%)`,
-                        transition: 'transform 0.4s cubic-bezier(0.5, 1.5, 0.5, 1)',
-                    }}
-                />
-                {options.map(opt => (
-                    <button
-                        key={String(opt.value)}
-                        onClick={() => onChange(opt.value)}
-                        className="relative z-10 flex-1 py-1.5 text-sm font-bold rounded-full transition-colors flex items-center justify-center"
-                    >
-                        <span className={currentValue === opt.value ? 'text-accent dark:text-white' : 'text-text-muted-light dark:text-text-muted-dark'}>
-                            {opt.label}
-                        </span>
-                    </button>
-                ))}
-            </div>
+        <div className="relative flex w-full bg-brand-dark/10 dark:bg-brand-dark/80 rounded-full p-1">
+            <div
+                className="absolute top-1 bottom-1 bg-white dark:bg-accent rounded-full shadow-md"
+                style={{
+                    width: `calc(${itemWidthPercent}% - 4px)`, // p-1 is 4px total, so subtract from width
+                    left: `calc(${activeIndex * itemWidthPercent}% + 2px)`, // and add half for position
+                    transition: 'left 0.4s cubic-bezier(0.5, 1.5, 0.5, 1)',
+                }}
+            />
+            {options.map(opt => (
+                <button
+                    key={String(opt.value)}
+                    onClick={() => onChange(opt.value)}
+                    className="relative z-10 flex-1 py-1.5 text-sm font-bold rounded-full transition-colors flex items-center justify-center"
+                >
+                    <span className={currentValue === opt.value ? 'text-accent dark:text-white' : 'text-text-muted-light dark:text-text-muted-dark'}>
+                        {opt.label}
+                    </span>
+                </button>
+            ))}
         </div>
     );
 };

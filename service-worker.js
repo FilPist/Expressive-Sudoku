@@ -1,10 +1,10 @@
-const CACHE_NAME = 'sudoku-v3';
+const CACHE_NAME = 'sudoku-v4'; // Incremented cache version
 const urlsToCache = [
-  '/',
-  '/index.html',
-  '/manifest.json',
-  '/assets/icons/icon-192x192.png',
-  '/assets/icons/icon-512x512.png',
+  './',
+  './index.html',
+  './manifest.json',
+  './assets/icons/icon-192x192.png',
+  './assets/icons/icon-512x512.png',
   'https://cdn.tailwindcss.com',
   'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap'
 ];
@@ -26,7 +26,7 @@ self.addEventListener('activate', event => {
       return Promise.all(
         cacheNames.filter(name => name !== CACHE_NAME).map(name => caches.delete(name))
       );
-    })
+    }).then(() => self.clients.claim())
   );
 });
 
@@ -35,7 +35,7 @@ self.addEventListener('fetch', event => {
   if (event.request.mode === 'navigate') {
     event.respondWith(
       fetch(event.request).catch(() => {
-        return caches.match('/index.html');
+        return caches.match('./index.html');
       })
     );
     return;

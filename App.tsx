@@ -131,8 +131,8 @@ export const App: React.FC = () => {
     
     const startNewGame = useCallback((diff: Difficulty) => {
         playFeedback(playClickSound);
-        recordGameStart(diff);
-        setStats(loadStats()); 
+        const newStats = recordGameStart(diff);
+        setStats(newStats); 
         setDifficulty(diff);
         const { puzzle: newPuzzle, solution: newSolution } = generateSudoku(diff);
         setPuzzle(newPuzzle);
@@ -453,9 +453,9 @@ export const App: React.FC = () => {
                     )}
                     {/* Numbers are now inside the rotating group */}
                     <g style={{ pointerEvents: 'none' }}>
-                        <text x="26" y="36" alignmentBaseline="middle" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="20" fontWeight="bold" fill="white">5</text>
-                        <text x="52" y="62" alignmentBaseline="middle" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="20" fontWeight="bold" fill="white">3</text>
-                        <text x="78" y="88" alignmentBaseline="middle" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="20" fontWeight="bold" fill="white">9</text>
+                        <text x="26" y="26" alignmentBaseline="middle" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="20" fontWeight="bold" fill="white">5</text>
+                        <text x="52" y="52" alignmentBaseline="middle" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="20" fontWeight="bold" fill="white">3</text>
+                        <text x="78" y="78" alignmentBaseline="middle" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="20" fontWeight="bold" fill="white">9</text>
                     </g>
                 </g>
             </svg>
