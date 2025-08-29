@@ -1,0 +1,24 @@
+{
+  "short_name": "Expressive Sudoku",
+  "name": "Expressive Sudoku",
+  "description": "A clean, modern, and responsive Sudoku game with multiple difficulty levels, a timer, hints, and automatic game saving.",
+  "icons": [
+    {
+      "src": "assets/icons/icon-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icons/icon-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#f5f3ff",
+  "background_color": "#f5f3ff"
+}
