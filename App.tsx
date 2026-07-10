@@ -580,7 +580,7 @@ export const App: React.FC = () => {
             <SettingsModal isOpen={showSettingsModal} onClose={() => setShowSettingsModal(false)} settings={settings} onSettingsChange={(s) => setSettings(prev => ({...prev, ...s}))} t={t} />
             
             <header className="w-full max-w-5xl flex justify-between items-center p-2 mb-2 sm:mb-4">
-                <h1 className="text-2xl sm:text-3xl font-black text-text-light dark:text-text-dark tracking-tight" style={{ fontFamily: 'Outfit, sans-serif' }}>Expressive Sudoku</h1>
+                <h1 className="text-2xl sm:text-3xl font-black text-text-light dark:text-text-dark tracking-tight cursor-pointer" onClick={() => setGameState('menu')} style={{ fontFamily: 'Outfit, sans-serif' }}>Expressive Sudoku</h1>
                 <div className="flex items-center gap-2">
                     <button onClick={() => setShowSettingsModal(true)} className="p-3 rounded-full transition-colors hover:bg-accent/10 dark:hover:bg-accent/20" aria-label="Open Settings">
                         <SettingsIcon className="w-7 h-7 text-text-muted-light dark:text-text-muted-dark" />

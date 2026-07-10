@@ -1,10 +1,23 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-    <rect width="512" height="512" rx="100" fill="#f5f3ff"/>
-    <rect x="100" y="100" width="312" height="312" rx="30" fill="none" stroke="#1e1b34" stroke-width="24"/>
-    <line x1="204" y1="100" x2="204" y2="412" stroke="#1e1b34" stroke-width="16"/>
-    <line x1="308" y1="100" x2="308" y2="412" stroke="#1e1b34" stroke-width="16"/>
-    <line x1="100" y1="204" x2="412" y2="204" stroke="#1e1b34" stroke-width="16"/>
-    <line x1="100" y1="308" x2="412" y2="308" stroke="#1e1b34" stroke-width="16"/>
-    <circle cx="152" cy="152" r="24" fill="#ff007a"/>
-    <circle cx="360" cy="360" r="24" fill="#00e0b8"/>
+    <!-- Background -->
+    <rect width="512" height="512" rx="120" fill="#f5f3ff"/>
+    
+    <!-- Outer Grid Container with Drop Shadow effect -->
+    <rect x="80" y="80" width="352" height="352" rx="40" fill="#ffffff" stroke="#1e1b34" stroke-width="24"/>
+    
+    <!-- Expressive Abstract Elements (behind grid lines but inside container) -->
+    <path d="M 90 200 Q 150 120 250 180 T 420 220" fill="none" stroke="#ff007a" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" opacity="0.8"/>
+    <path d="M 120 400 Q 220 450 300 350 T 400 400" fill="none" stroke="#00e0b8" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" opacity="0.8"/>
+    
+    <!-- Bold Grid Lines -->
+    <line x1="197" y1="80" x2="197" y2="432" stroke="#1e1b34" stroke-width="20" stroke-linecap="round"/>
+    <line x1="315" y1="80" x2="315" y2="432" stroke="#1e1b34" stroke-width="20" stroke-linecap="round"/>
+    
+    <line x1="80" y1="197" x2="432" y2="197" stroke="#1e1b34" stroke-width="20" stroke-linecap="round"/>
+    <line x1="80" y1="315" x2="432" y2="315" stroke="#1e1b34" stroke-width="20" stroke-linecap="round"/>
+    
+    <!-- Accent Dots / Numbers representation -->
+    <circle cx="138" cy="138" r="32" fill="#ff007a"/>
+    <circle cx="374" cy="374" r="36" fill="#00e0b8"/>
+    <circle cx="256" cy="256" r="28" fill="#1e1b34"/>
 </svg>

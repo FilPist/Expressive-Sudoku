@@ -20,10 +20,10 @@ interface BoardProps {
 export const Board: React.FC<BoardProps> = ({ puzzle, playerGrid, selectedCell, onCellClick, errors, animatedCells, notes, isNotesMode, lastPlayedCell, selectedNumber, t, isCellClickable, highlightedCells }) => {
 
   return (
-    <div className="w-full max-w-lg aspect-square bg-surface-light dark:bg-surface-dark backdrop-blur-xl border border-white/20 dark:border-white/10 shadow-soft dark:shadow-soft-dark rounded-3xl p-1.5 sm:p-2 grid grid-cols-3 gap-1.5 sm:gap-2">
+    <div className="w-full max-w-lg aspect-square bg-surface-light dark:bg-surface-dark backdrop-blur-xl border border-white/20 dark:border-white/10 shadow-soft dark:shadow-soft-dark rounded-[2rem] p-3 sm:p-4 grid grid-cols-3 grid-rows-3 gap-3 sm:gap-4">
       {[...Array(3)].map((_, boxRow) => 
         [...Array(3)].map((_, boxCol) => (
-          <div key={`${boxRow}-${boxCol}`} className="grid grid-cols-3 gap-px sm:gap-0.5 bg-brand-dark/10 dark:bg-brand-light/10 rounded-lg overflow-hidden">
+          <div key={`${boxRow}-${boxCol}`} className="grid grid-cols-3 grid-rows-3 gap-1 sm:gap-1.5">
             {[...Array(3)].map((_, cellRow) =>
               [...Array(3)].map((_, cellCol) => {
                 const row = boxRow * 3 + cellRow;
@@ -42,10 +42,10 @@ export const Board: React.FC<BoardProps> = ({ puzzle, playerGrid, selectedCell, 
                 const isTutorialHighlighted = highlightedCells?.some(c => c.row === row && c.col === col);
                 const isDisabled = (isCellClickable && !isCellClickable(row, col));
 
-                let cellBg = 'bg-brand-light/80 dark:bg-brand-dark/60 hover:bg-accent/10 dark:hover:bg-accent/20';
-                if (isHighlighted) cellBg = 'bg-brand-dark/5 dark:bg-brand-dark';
+                let cellBg = 'bg-brand-dark/5 dark:bg-brand-light/5 hover:bg-accent/10 dark:hover:bg-accent/20';
+                if (isHighlighted) cellBg = 'bg-brand-dark/10 dark:bg-brand-light/10';
                 if (isSameNumber) cellBg = 'bg-secondary/20 dark:bg-secondary/30';
-                if (isSelected) cellBg = 'bg-accent/10 dark:bg-accent/20';
+                if (isSelected) cellBg = 'bg-accent/15 dark:bg-accent/25';
                 
                 const ringClasses = hasError && !isClue 
                   ? 'ring-inset ring-2 ring-danger'
@@ -61,7 +61,7 @@ export const Board: React.FC<BoardProps> = ({ puzzle, playerGrid, selectedCell, 
                     key={`${row}-${col}`}
                     onClick={() => onCellClick(row, col)}
                     disabled={isDisabled}
-                    className={`w-full h-full flex items-center justify-center text-2xl md:text-3xl transition-all duration-200 relative focus:outline-none rounded-md ${cellBg} ${ringClasses} ${isAnimated ? 'animate-unit-complete' : ''} ${isTutorialHighlighted ? 'tutorial-highlight' : ''} ${isDisabled ? 'cursor-not-allowed opacity-70' : 'cursor-pointer'}`}
+                    className={`w-full h-full flex items-center justify-center text-2xl md:text-3xl transition-all duration-200 relative focus:outline-none rounded-lg sm:rounded-xl shadow-sm ${cellBg} ${ringClasses} ${isAnimated ? 'animate-unit-complete' : ''} ${isTutorialHighlighted ? 'tutorial-highlight' : ''} ${isDisabled ? 'cursor-not-allowed opacity-70' : 'cursor-pointer'}`}
                     aria-label={`Cell ${row + 1}, ${col + 1}, ${valueText}${notesText}`}
                   >
                     {value ? (
