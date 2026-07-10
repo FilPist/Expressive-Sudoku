@@ -1,5 +1,6 @@
 {
   "name": "Expressive Sudoku",
   "description": "A clean, modern, and responsive Sudoku game with multiple difficulty levels, a timer, hints, and automatic game saving.",
-  "requestFramePermissions": []
+  "requestFramePermissions": [],
+  "majorCapabilities": []
 }
