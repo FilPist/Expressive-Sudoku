@@ -448,6 +448,12 @@ export const App: React.FC = () => {
                     <rect id="cell" width="24" height="24" rx="4" className="transition-colors" />
                 </defs>
                 <g className="animate-logo-spin" style={{ transformOrigin: '50% 50%' }}>
+                    {/* Abstract expressive lines */}
+                    <path d="M 10 30 Q 30 10 52 20 T 94 30" fill="none" stroke="#ff007a" strokeWidth="2" strokeLinecap="round" opacity="0.6" className="animate-logo-rect" style={{ animationDelay: '100ms' }} />
+                    <path d="M 20 80 Q 40 100 60 80 T 90 90" fill="none" stroke="#00e0b8" strokeWidth="2" strokeLinecap="round" opacity="0.6" className="animate-logo-rect" style={{ animationDelay: '200ms' }} />
+                    <circle cx="20" cy="50" r="3" fill="#ff007a" opacity="0.7" className="animate-logo-rect" style={{ animationDelay: '300ms' }} />
+                    <circle cx="85" cy="50" r="4" fill="#00e0b8" opacity="0.7" className="animate-logo-rect" style={{ animationDelay: '400ms' }} />
+                    
                     {/* Grid cells */}
                     {[...Array(3)].map((_, i) =>
                         [...Array(3)].map((_, j) => (

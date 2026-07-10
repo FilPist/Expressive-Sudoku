@@ -1,10 +1,11 @@
 import React from 'react';
 import { PlayIcon, TrophyIcon, TimerIcon, HomeIcon, PowerIcon } from './Icons';
+import { Confetti } from './Confetti';
 
 const ModalWrapper: React.FC<{ children: React.ReactNode, isOpen: boolean }> = ({ children, isOpen }) => {
   if (!isOpen) return null;
   return (
-    <div className="fixed inset-0 bg-brand-dark/50 backdrop-blur-xl flex items-center justify-center z-50 p-4 animate-fade-in">
+    <div className="fixed inset-0 bg-brand-dark/50 backdrop-blur-xl flex items-center justify-center z-[60] p-4 animate-fade-in">
       <div className="bg-surface-light dark:bg-surface-dark border border-white/20 dark:border-white/10 rounded-3xl shadow-2xl shadow-brand-dark/20 dark:shadow-black/30 p-6 sm:p-8 text-center text-text-light dark:text-text-dark max-w-sm w-full animate-pop-in" style={{'--ease-spring': 'cubic-bezier(0.4, 0, 0.2, 1)'} as React.CSSProperties}>
         {children}
       </div>
@@ -50,9 +51,11 @@ export const WinModal: React.FC<{ time: number; difficulty: string; onNewGame: (
     };
 
     return (
-        <ModalWrapper isOpen={true}>
-            <TrophyIcon className="w-20 h-20 text-yellow-400 mx-auto mb-4 drop-shadow-lg" />
-            <h2 className="text-5xl font-black mb-2 text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-amber-500">{t('victory')}</h2>
+        <>
+            <Confetti />
+            <ModalWrapper isOpen={true}>
+                <TrophyIcon className="w-20 h-20 text-yellow-400 mx-auto mb-4 drop-shadow-lg" />
+                <h2 className="text-5xl font-black mb-2 text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-amber-500">{t('victory')}</h2>
             <p className="text-text-muted-light dark:text-text-muted-dark mb-6">{t('youSolvedThePuzzle')}</p>
             
             <div className="bg-brand-dark/5 dark:bg-brand-dark/50 p-4 rounded-2xl mb-8">
@@ -76,6 +79,7 @@ export const WinModal: React.FC<{ time: number; difficulty: string; onNewGame: (
                 {t('playAgain')}
             </button>
         </ModalWrapper>
+        </>
     );
 };
 
