@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import type { Settings, Theme, ErrorCheckMode, Language } from '../types';
 import { SunIcon, MoonIcon, HomeIcon, SoundOnIcon, SoundOffIcon, VibrateIcon, InstantCheckIcon, NoCheckIcon, CheckCircleIcon } from './Icons';
 
@@ -16,9 +17,9 @@ const ModalWrapper: React.FC<{ children: React.ReactNode, onClose: () => void }>
     onClick={onClose}
   >
     <div 
-      className="bg-surface-light dark:bg-surface-dark border border-white/20 dark:border-white/10 rounded-3xl shadow-2xl shadow-brand-dark/20 dark:shadow-black/30 p-6 sm:p-8 text-text-light dark:text-text-dark max-w-md w-full animate-jelly-in"
+      className="bg-surface-light dark:bg-surface-dark border border-white/20 dark:border-white/10 rounded-3xl shadow-2xl shadow-brand-dark/20 dark:shadow-black/30 p-6 sm:p-8 text-text-light dark:text-text-dark max-w-md w-full animate-pop-in"
       onClick={(e) => e.stopPropagation()}
-      style={{'--ease-spring': 'cubic-bezier(0.5, 1.5, 0.5, 1)'} as React.CSSProperties}
+      style={{'--ease-spring': 'cubic-bezier(0.4, 0, 0.2, 1)'} as React.CSSProperties}
     >
       {children}
     </div>
@@ -37,30 +38,29 @@ const ToggleButton: React.FC<{
     currentValue: string | boolean;
     onChange: (value: any) => void;
 }> = ({ options, currentValue, onChange }) => {
-    const activeIndex = options.findIndex(opt => opt.value === currentValue);
-    const itemWidthPercent = 100 / options.length;
-
     return (
         <div className="relative flex w-full bg-brand-dark/10 dark:bg-brand-dark/80 rounded-full p-1">
-            <div
-                className="absolute top-1 bottom-1 bg-white dark:bg-accent rounded-full shadow-md"
-                style={{
-                    width: `calc(${itemWidthPercent}% - 4px)`, // p-1 is 4px total, so subtract from width
-                    left: `calc(${activeIndex * itemWidthPercent}% + 2px)`, // and add half for position
-                    transition: 'left 0.4s cubic-bezier(0.5, 1.5, 0.5, 1)',
-                }}
-            />
-            {options.map(opt => (
-                <button
-                    key={String(opt.value)}
-                    onClick={() => onChange(opt.value)}
-                    className="relative z-10 flex-1 py-1.5 text-sm font-bold rounded-full transition-colors flex items-center justify-center"
-                >
-                    <span className={currentValue === opt.value ? 'text-accent dark:text-white' : 'text-text-muted-light dark:text-text-muted-dark'}>
-                        {opt.label}
-                    </span>
-                </button>
-            ))}
+            {options.map(opt => {
+                const isActive = currentValue === opt.value;
+                return (
+                    <button
+                        key={String(opt.value)}
+                        onClick={() => onChange(opt.value)}
+                        className="relative z-10 flex-1 py-1.5 text-sm font-bold rounded-full transition-colors flex items-center justify-center"
+                    >
+                        {isActive && (
+                            <motion.div
+                                layoutId={`active-pill-${options[0].value}`}
+                                className="absolute inset-0 bg-white dark:bg-accent rounded-full shadow-md"
+                                transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                            />
+                        )}
+                        <span className={`relative z-20 ${isActive ? 'text-accent dark:text-white' : 'text-text-muted-light dark:text-text-muted-dark'}`}>
+                            {opt.label}
+                        </span>
+                    </button>
+                );
+            })}
         </div>
     );
 };

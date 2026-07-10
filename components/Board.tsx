@@ -48,9 +48,9 @@ export const Board: React.FC<BoardProps> = ({ puzzle, playerGrid, selectedCell, 
                 if (isSelected) cellBg = 'bg-accent/10 dark:bg-accent/20';
                 
                 const ringClasses = hasError && !isClue 
-                  ? 'ring-4 ring-danger'
+                  ? 'ring-inset ring-2 ring-danger'
                   : isSelected 
-                  ? 'ring-4 ring-accent'
+                  ? 'ring-inset ring-2 ring-accent'
                   : 'ring-0 ring-transparent';
 
                 const notesText = notesForCell.size > 0 ? `, notes for ${Array.from(notesForCell).sort().join(', ')}` : '';
@@ -61,7 +61,7 @@ export const Board: React.FC<BoardProps> = ({ puzzle, playerGrid, selectedCell, 
                     key={`${row}-${col}`}
                     onClick={() => onCellClick(row, col)}
                     disabled={isDisabled}
-                    className={`aspect-square w-full h-full flex items-center justify-center text-2xl md:text-3xl transition-all duration-200 relative focus:outline-none rounded-lg ${cellBg} ${ringClasses} ${isAnimated ? 'animate-unit-complete' : ''} ${isTutorialHighlighted ? 'tutorial-highlight' : ''} ${isDisabled ? 'cursor-not-allowed opacity-70' : 'cursor-pointer'}`}
+                    className={`w-full h-full flex items-center justify-center text-2xl md:text-3xl transition-all duration-200 relative focus:outline-none rounded-md ${cellBg} ${ringClasses} ${isAnimated ? 'animate-unit-complete' : ''} ${isTutorialHighlighted ? 'tutorial-highlight' : ''} ${isDisabled ? 'cursor-not-allowed opacity-70' : 'cursor-pointer'}`}
                     aria-label={`Cell ${row + 1}, ${col + 1}, ${valueText}${notesText}`}
                   >
                     {value ? (

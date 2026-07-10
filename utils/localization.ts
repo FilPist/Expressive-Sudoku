@@ -162,16 +162,11 @@ const translations = {
   }
 };
 
-let currentLanguage: Language = 'en';
+let currentLanguage: Language = 'it';
 
 // Function to detect browser language and set it if available
 export const initializeLanguage = (): Language => {
-    const browserLang = navigator.language.split('-')[0];
-    if (browserLang === 'it') {
-        currentLanguage = 'it';
-    } else {
-        currentLanguage = 'en';
-    }
+    currentLanguage = 'it';
     return currentLanguage;
 };
 

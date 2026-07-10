@@ -45,7 +45,7 @@ export const App: React.FC = () => {
     const [stats, setStats] = useState<GameStats>(loadStats());
     const [settings, setSettings] = useState<Settings>(() => {
         const savedSettings = localStorage.getItem(SETTINGS_KEY);
-        const defaultSettings: Settings = { theme: 'dark', errorCheckMode: 'manual', language: initializeLanguage(), soundMode: 'sound' };
+        const defaultSettings: Settings = { theme: 'light', errorCheckMode: 'manual', language: initializeLanguage(), soundMode: 'sound' };
         const parsed = savedSettings ? JSON.parse(savedSettings) : {};
         const finalSettings = { ...defaultSettings, ...parsed };
         setLanguage(finalSettings.language);
@@ -91,13 +91,28 @@ export const App: React.FC = () => {
         setSavedGameExists(!!localStorage.getItem(SAVE_KEY));
     }, [gameState]);
 
+    const latestStateRef = React.useRef({ difficulty, puzzle, solution, playerGrid, time, mistakes, hintsLeft, notes, gameState });
+    useEffect(() => {
+        latestStateRef.current = { difficulty, puzzle, solution, playerGrid, time, mistakes, hintsLeft, notes, gameState };
+    }, [difficulty, puzzle, solution, playerGrid, time, mistakes, hintsLeft, notes, gameState]);
+
     const saveGame = useCallback(() => {
-        if (gameState !== 'playing') return;
-        const notesToSave = notes.map(row => row.map(cellNotes => Array.from(cellNotes)));
-        const stateToSave: GameSaveState = { difficulty, puzzle, solution, playerGrid, time, mistakes, hintsLeft, notes: notesToSave };
+        const state = latestStateRef.current;
+        if (state.gameState !== 'playing') return;
+        const notesToSave = state.notes.map(row => row.map(cellNotes => Array.from(cellNotes)));
+        const stateToSave: GameSaveState = { 
+            difficulty: state.difficulty, 
+            puzzle: state.puzzle, 
+            solution: state.solution, 
+            playerGrid: state.playerGrid, 
+            time: state.time, 
+            mistakes: state.mistakes, 
+            hintsLeft: state.hintsLeft, 
+            notes: notesToSave 
+        };
         localStorage.setItem(SAVE_KEY, JSON.stringify(stateToSave));
         setSavedGameExists(true);
-    }, [difficulty, puzzle, solution, playerGrid, time, mistakes, hintsLeft, notes, gameState]);
+    }, []);
 
     useEffect(() => {
         if (gameState === 'playing') {
@@ -453,13 +468,13 @@ export const App: React.FC = () => {
                     )}
                     {/* Numbers are now inside the rotating group */}
                     <g style={{ pointerEvents: 'none' }}>
-                        <text x="26" y="26" alignmentBaseline="middle" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="20" fontWeight="bold" fill="white">5</text>
-                        <text x="52" y="52" alignmentBaseline="middle" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="20" fontWeight="bold" fill="white">3</text>
-                        <text x="78" y="78" alignmentBaseline="middle" textAnchor="middle" fontFamily="Inter, sans-serif" fontSize="20" fontWeight="bold" fill="white">9</text>
+                        <text x="26" y="26" alignmentBaseline="middle" textAnchor="middle" fontFamily="Outfit, sans-serif" fontSize="20" fontWeight="bold" fill="white">5</text>
+                        <text x="52" y="52" alignmentBaseline="middle" textAnchor="middle" fontFamily="Outfit, sans-serif" fontSize="20" fontWeight="bold" fill="white">3</text>
+                        <text x="78" y="78" alignmentBaseline="middle" textAnchor="middle" fontFamily="Outfit, sans-serif" fontSize="20" fontWeight="bold" fill="white">9</text>
                     </g>
                 </g>
             </svg>
-            <h1 className="text-5xl md:text-6xl font-black text-text-light dark:text-text-dark tracking-tighter">Expressive Sudoku</h1>
+            <h1 className="text-5xl md:text-6xl font-black text-text-light dark:text-text-dark tracking-tighter" style={{ fontFamily: 'Outfit, sans-serif' }}>Expressive Sudoku</h1>
             {showSubtitle && <p className="text-text-muted-light dark:text-text-muted-dark mt-2 tracking-wide font-medium">Made by Filippo Pistaffa</p>}
         </div>
     );
@@ -480,11 +495,11 @@ export const App: React.FC = () => {
 
     if (gameState === 'menu') {
         return (
-            <div className="min-h-screen w-full flex flex-col items-center justify-center p-4 bg-brand-light dark:bg-brand-dark transition-colors">
+            <div className="min-h-screen w-full flex flex-col items-center justify-center p-4 bg-brand-light dark:bg-brand-dark transition-colors animate-fade-in">
                 <ConfirmModal isOpen={showNewGameConfirm} onConfirm={confirmNewGame} onCancel={() => setShowNewGameConfirm(false)} title={t('startNewGameTitle')} message={t('startNewGameMessage')} t={t} />
                 <SettingsModal isOpen={showSettingsModal} onClose={() => setShowSettingsModal(false)} settings={settings} onSettingsChange={(s) => setSettings(prev => ({...prev, ...s}))} t={t} />
                 <StatsModal isOpen={showStatsModal} onClose={() => setShowStatsModal(false)} stats={stats} t={t} />
-                <div className="absolute top-4 right-4 flex gap-2">
+                <div className="absolute top-4 right-4 flex gap-2 z-10">
                      <button onClick={() => setShowStatsModal(true)} className="p-3 rounded-full bg-surface-light/50 dark:bg-surface-dark/50 backdrop-blur-sm hover:bg-accent/10 dark:hover:bg-accent/20 transition-colors" aria-label="View Statistics">
                         <StatsIcon className="w-6 h-6 text-text-muted-light dark:text-text-muted-dark" />
                     </button>
@@ -493,29 +508,33 @@ export const App: React.FC = () => {
                     </button>
                 </div>
 
-                <div className="mb-12 animate-stagger-in" style={{ animationDelay: '100ms', '--ease-spring': 'cubic-bezier(0.5, 1.5, 0.5, 1)'} as React.CSSProperties}>
+                <div className="mb-12">
                     <Logo />
                 </div>
                 
                 <div className="flex flex-col gap-4 w-full items-center">
                     {savedGameExists && (
-                        <div style={{ animationDelay: '200ms', '--ease-spring': 'cubic-bezier(0.5, 1.5, 0.5, 1)'} as React.CSSProperties} className="w-full max-w-xs animate-stagger-in">
+                        <div className="w-full max-w-xs">
                             <button onClick={handleContinue} className="w-full px-6 py-4 text-xl font-bold rounded-full transition-all duration-300 shadow-soft dark:shadow-soft-dark bg-secondary text-white hover:scale-105 active:scale-[0.98] focus:outline-none">
                                 {t('continue')}
                             </button>
                         </div>
                     )}
-                    <div style={{ animationDelay: '300ms', '--ease-spring': 'cubic-bezier(0.5, 1.5, 0.5, 1)'} as React.CSSProperties} className="w-full max-w-xs animate-stagger-in"><DifficultyButton diff="easy" label={t('easy')} /></div>
-                    <div style={{ animationDelay: '400ms', '--ease-spring': 'cubic-bezier(0.5, 1.5, 0.5, 1)'} as React.CSSProperties} className="w-full max-w-xs animate-stagger-in"><DifficultyButton diff="medium" label={t('medium')} /></div>
-                    <div style={{ animationDelay: '500ms', '--ease-spring': 'cubic-bezier(0.5, 1.5, 0.5, 1)'} as React.CSSProperties} className="w-full max-w-xs animate-stagger-in"><DifficultyButton diff="hard" label={t('hard')} /></div>
-                    <div style={{ animationDelay: '600ms', '--ease-spring': 'cubic-bezier(0.5, 1.5, 0.5, 1)'} as React.CSSProperties} className="w-full max-w-xs animate-stagger-in"><DifficultyButton diff="expert" label={t('expert')} /></div>
+                    <div className="w-full max-w-xs"><DifficultyButton diff="easy" label={t('easy')} /></div>
+                    <div className="w-full max-w-xs"><DifficultyButton diff="medium" label={t('medium')} /></div>
+                    <div className="w-full max-w-xs"><DifficultyButton diff="hard" label={t('hard')} /></div>
+                    <div className="w-full max-w-xs"><DifficultyButton diff="expert" label={t('expert')} /></div>
 
                      <div className="w-40 border-t border-brand-dark/10 dark:border-brand-light/10 my-4"></div>
-                     <div style={{ animationDelay: '700ms', '--ease-spring': 'cubic-bezier(0.5, 1.5, 0.5, 1)'} as React.CSSProperties} className="w-full max-w-xs animate-stagger-in">
+                     <div className="w-full max-w-xs">
                         <button onClick={() => setGameState('learn')} className="w-full px-6 py-3 text-xl font-semibold rounded-full transition-all duration-300 shadow-soft dark:shadow-soft-dark bg-accent/20 text-accent dark:bg-secondary/20 dark:text-secondary hover:bg-accent/30 dark:hover:bg-secondary/30 hover:scale-105 active:scale-[0.98] focus:outline-none">
                             {t('learn')}
                         </button>
                     </div>
+                </div>
+                
+                <div className="absolute bottom-4 text-text-muted-light dark:text-text-muted-dark text-sm font-medium">
+                    v1.0.0
                 </div>
             </div>
         );
@@ -555,7 +574,7 @@ export const App: React.FC = () => {
             <SettingsModal isOpen={showSettingsModal} onClose={() => setShowSettingsModal(false)} settings={settings} onSettingsChange={(s) => setSettings(prev => ({...prev, ...s}))} t={t} />
             
             <header className="w-full max-w-5xl flex justify-between items-center p-2 mb-2 sm:mb-4">
-                <h1 className="text-2xl sm:text-3xl font-black text-text-light dark:text-text-dark tracking-tight">Expressive Sudoku</h1>
+                <h1 className="text-2xl sm:text-3xl font-black text-text-light dark:text-text-dark tracking-tight" style={{ fontFamily: 'Outfit, sans-serif' }}>Expressive Sudoku</h1>
                 <div className="flex items-center gap-2">
                     <button onClick={() => setShowSettingsModal(true)} className="p-3 rounded-full transition-colors hover:bg-accent/10 dark:hover:bg-accent/20" aria-label="Open Settings">
                         <SettingsIcon className="w-7 h-7 text-text-muted-light dark:text-text-muted-dark" />
