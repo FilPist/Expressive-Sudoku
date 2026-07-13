@@ -17,7 +17,7 @@ export default defineConfig(({ mode }) => {
           includeAssets: ['favicon.ico', 'icon.svg'],
           manifest: {
             name: 'Expressive Sudoku',
-            short_name: 'Sudoku',
+            short_name: 'Expressive Sudoku',
             description: 'A clean, modern, and responsive Sudoku game.',
             theme_color: '#f5f3ff',
             background_color: '#f5f3ff',

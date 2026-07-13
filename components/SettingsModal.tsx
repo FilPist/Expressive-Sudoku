@@ -13,11 +13,11 @@ interface SettingsModalProps {
 
 const ModalWrapper: React.FC<{ children: React.ReactNode, onClose: () => void }> = ({ children, onClose }) => (
   <div 
-    className="fixed inset-0 bg-brand-dark/50 backdrop-blur-xl flex items-center justify-center z-50 p-4 animate-fade-in"
+    className="fixed inset-0 bg-brand-dark/50 backdrop-blur-xl flex justify-center items-start sm:items-center z-50 p-4 overflow-y-auto animate-fade-in"
     onClick={onClose}
   >
     <div 
-      className="bg-surface-light dark:bg-surface-dark border border-white/20 dark:border-white/10 rounded-3xl shadow-2xl shadow-brand-dark/20 dark:shadow-black/30 p-6 sm:p-8 text-text-light dark:text-text-dark max-w-md w-full animate-pop-in"
+      className="bg-surface-light dark:bg-surface-dark border border-white/20 dark:border-white/10 rounded-3xl shadow-2xl shadow-brand-dark/20 dark:shadow-black/30 p-6 sm:p-8 text-text-light dark:text-text-dark max-w-md w-full my-auto animate-pop-in"
       onClick={(e) => e.stopPropagation()}
       style={{'--ease-spring': 'cubic-bezier(0.4, 0, 0.2, 1)'} as React.CSSProperties}
     >
